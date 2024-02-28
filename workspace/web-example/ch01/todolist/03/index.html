@@ -17,7 +17,7 @@
           <li>
             <h2>쇼핑 목록</h2>
             <div class="todoinput">
-              <input type="text" autofocus onkeydown="handleAddKeydown(event)">
+              <input type="text" autofocus onkeyup="handleAddKeydown(event)">
               <button type="button" onclick="handleAdd()">추가</button>
             </div>
             <ul class="todolist">
@@ -213,7 +213,7 @@
 
 
 
-    
+
     // 할일 삭제
     function deleteItem(no){
       
