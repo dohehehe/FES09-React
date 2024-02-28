@@ -8,7 +8,7 @@
 <body>
   <div id="todo">
     <header>
-      <h1>Todo List - 등록 :)</h1>
+      <h1>Todo List - 수정 :)</h1>
       <p>파일 경로: <span id="filepath"></span></p>
     </header>
     <div id="main">
@@ -17,7 +17,7 @@
           <li>
             <h2>쇼핑 목록</h2>
             <div class="todoinput">
-              <input type="text" autofocus onkeydown="handleAddKeydown(event)">
+              <input type="text" autofocus onkeyup="handleAddKeydown(event)">
               <button type="button" onclick="handleAdd()">추가</button>
             </div>
             <ul class="todolist">
@@ -100,6 +100,14 @@
       liElem.appendChild(titleElem);
       liElem.appendChild(deleteElem);
 
+        // 완료/미완료 처리를 위한 attribute 추가
+            // <li data-no="1">
+            //   <span>1</span>
+            //   <span onclick="toggleDone(1)"><s>샘플1</s></span>
+            //   <button type="button">삭제</button>
+            // </li>
+      liElem.setAttribute('data-no', item.no);
+      titleElem.setAttribute('onclick', `toggleDone(${item.no})`);
 
       return liElem;
     }
@@ -164,10 +172,46 @@
     }
 
 
-    // 완료/미완료 처리
-    function toggleDone(no){
 
+
+// * 완료/ 미완료 처리
+    // 해당 함수는 getTodoItemElem()에서 
+    // titleElem.setAttribute('onclick', `toggleDone(${item.no})`);로 이벤트 할당
+    // 여기서 toggleDone 매개변수 no에서 받는 인수는 ${item.no}
+    // titleElem의 클릭 이벤트로 toggleDone(no)함수가 실행됨
+    
+    function toggleDone(no){
+        // * 데이터 갱신(아이템의 완료 여부 갱신)
+        //   Array.prototype.find()
+        //   selectedItem은 클릭한 titleElem으로 매번 할당되고
+        //   이벤트 발생(클릭)마다 done 프로퍼티의 boolean 값이 매번 변경됨
+      const selectedItem = itemList.find(item => item.no === no);
+      selectedItem.done = !selectedItem.done;
+
+
+        // * 화면에 수정된 아이템으로 갱신
+              // selectedLi = 
+              //   <li data-no=2>
+              //     <span>1</span>
+              //     <span onclick="toggleDone(2)"><s>계란</s></span>
+              //     <button type="button">삭제</button>
+              //   </li>
+      const selectedLi = document.querySelector(`.todolist > li[data-no="${no}"]`);
+
+      if(selectedItem.done){
+        const titleElem = selectedLi.children[1];     // <span onclick="toggleDone(2)>계란</span>
+        const sElem = document.createElement('s');    // <s></s>
+        sElem.appendChild(titleElem.firstChild);      // <s>계란</s>
+        titleElem.appendChild(sElem);                 // <span onclick="toggleDone(2)><s>계란</s></span>
+      }else{
+        const titleElem = selectedLi.children[1];                      // <span><s>"계란"</s></span>
+        titleElem.appendChild(titleElem.firstElementChild.firstChild); // <span><s></s>"계란"</span>
+        titleElem.firstElementChild.remove();                          // <span>"계란"</span>
+      }
     }
+
+
+
 
 
     // 할일 삭제
