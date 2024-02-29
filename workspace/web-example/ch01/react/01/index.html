@@ -9,36 +9,54 @@
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 </head>
 <body>
-  <div id="app">
-    <header>
-      <h1>Counter - Sample</h1>
-      <p>파일 경로: <span id="filepath"></span></p>
-    </header>
-    <div id="counter">
-      <button type="button" onclick="handleDown()">-</button>
-      <button type="button" onclick="handleReset(event)">0</button>
-      <button type="button" onclick="handleUp()">+</button>
-      <span>0</span>
-    </div>
-  </div>
 
-  <script type="text/javascript">
-    document.querySelector('#filepath').textContent = document.URL.split('web-example')[1]+'index.html';
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function Header() {
+      return (
+        <header>
+          <h1>Counter - React</h1>
+          <p>파일 경로: <span id="filepath">{document.URL.split('web-example')[1]+'index.html'}</span></p>
+        </header>
+      );
+    }
+
+    function Counter() {
+      const [count, setCount] = React.useState(0);
+
+      const handleDown = () => {
+        setCount(count - 1);
+      };
+      const handleUp = () => {
+        setCount(count + 1);
+      };
+      const handleReset = event => {
+        setCount(0);
+      };
+      return(
+        <div id="counter">
+          <button type="button" onClick={ handleDown }>-</button>
+          <button type="button" onClick={ () => handleReset(event) }>0</button>
+          <button type="button" onClick={ handleUp }>+</button>
+          <span>{count}</span>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div id="app">
+          <Header />
+          <Counter />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 
-  <script type="text/javascript">
-    let count = 0;
-
-    const handleDown = () => {
-      
-    };
-    const handleUp = () => {
-      
-    };
-    const handleReset = event => {
-      
-    };
-  </script>
 
 </body>
 </html>
