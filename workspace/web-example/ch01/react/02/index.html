@@ -9,72 +9,55 @@
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="todo">
+    <header>
+      <h1>Todo List - Sample :)</h1>
+      <p>파일 경로: <span id="filepath"></span></p>
+    </header>
+    <div id="main">
+      <div id="container">
+        <ul>
+          <li>
+            <h2>쇼핑 목록</h2>
+            <div class="todoinput">
+              <input type="text" autofocus>
+              <button type="button">추가</button>
+            </div>
+            <ul class="todolist">
+              <li>
+                <span>1</span>
+                <span><s>샘플1</s></span>
+                <button type="button">삭제</button>
+              </li>
+              <li>
+                <span>2</span>
+                <span>샘플2</span>
+                <button type="button">삭제</button>
+              </li>
+              <li>
+                <span>3</span>
+                <span>샘플3</span>
+                <button type="button">삭제</button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <footer>
+      <p>Front-End School 9기</p>
+    </footer>
+  </div>
 
-  <script type="text/babel">
+  <script type="text/javascript">
+    document.querySelector('#filepath').textContent = document.URL.split('web-example')[1]+'index.html';
 
-    function App(){
-
-      const itemList = [
+    // 샘플 목록
+    const itemList = [
       { _id: 1, title: '두부', done: true} ,
       { _id: 2, title: '계란', done: false },
       { _id: 3, title: '라면', done: true },
-      ];
-
-      return (
-        <div id="todo">
-          <header>
-            <h1>Todo List - React로 UI 구성</h1>
-            <p>파일 경로: <span id="filepath">{document.URL.split('web-example')[1]+'index.html'}</span></p>
-          </header>
-          <div id="main">
-            <div id="container">
-              <ul>
-                <li>
-                  <h2>쇼핑 목록</h2>
-                  <div class="todoinput">
-                    <input type="text" autofocus >
-                    <button type="button">추가</button>
-                  </div>
-                  <ul class="todolist">
-                    <li>
-                      <span>1</span>
-                      <span><s>샘플1</s></span>
-                      <button type="button">삭제</button>
-                    </li>
-                    <li>
-                      <span>2</span>
-                      <span>샘플2</span>
-                      <button type="button">삭제</button>
-                    </li>
-                    <li>
-                      <span>3</span>
-                      <span>샘플3</span>
-                      <button type="button">삭제</button>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <footer>
-            <p>Front-End School 9기</p>
-          </footer>
-        </div>
-
-      );
-    }
-
-
-  </script>
-
-
-
-  <script type="text/javascript">
-
-
-    // 샘플 목록
-
+    ];
 
 
   </script>
