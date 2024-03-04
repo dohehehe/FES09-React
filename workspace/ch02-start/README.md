@@ -1,6 +1,4 @@
 # 2장 React 시작하기
-* 소스 코드(GitHub): <https://github.com/uzoolove/FES09-React/tree/main/workspace-ins/ch02-start>
-* 코드 실행(GitHub Page): <https://uzoolove.github.io/FES09-React/workspace-ins/index.html#02>
 
 ## 2-1 리액트란?
 * 페이스북에서 만든 웹 UI를 작성하기 위한 자바스크립트 라이브러리
