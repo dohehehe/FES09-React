@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List App</title>
+</head>
+<body>
+  <div id="todo">
+    <header>
+      <h1>Todo List - 삭제 :)</h1>
+      <p>파일 경로: <span id="filepath"></span></p>
+    </header>
+    <div id="main">
+      <div id="container">
+        <ul>
+          <li>
+            <h2>쇼핑 목록</h2>
+            <div class="todoinput">
+              <input type="text" autofocus onkeyup="handleAddKeydown(event)">
+              <button type="button" onclick="handleAdd()">추가</button>
+            </div>
+            <ul class="todolist">
+
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <footer>
+      <p>Front-End School 9기</p>
+    </footer>
+  </div>
+
+  <script type="text/javascript">
+// * 파일 표시 경로 변경 //
+    // http://127.0.0.1:5500/workspace/web-example/ch01/todolist/sample/
+    // ['http://127.0.0.1:5500/workspace/', '/ch01/todolist/sample/']
+    document.querySelector('#filepath').textContent = `ch${document.URL.split('/ch')[1]}index.html`;
+
+
+// * 샘플 목록 //
+    let itemList = [
+
+    ];
+
+
+    
+// 옵셔널 체이닝
+    let lastNo = itemList[itemList.length-1]?.no || 0;
+    // let lastNo = (itemList[itemList.length-1] !== undefined) ? itemList[itemList.length-1].no : 0;
+    // let lastNo = itemList.length > 0  ? itemList[itemList.length-1].no : 0;
+
+    
+
+// * Todo 아이템을 받아서 DOM 객체로 만들어 반환
+
+    function getTodoItemElem(item){
+      // return (
+      //   <li>
+      //     <span>1</span>
+      //     <span><s>두부</s></span>
+      //     <button type="button">삭제</button>
+      //   </li>
+      // );
+
+
+        // elements 만들기
+      const liElem = document.createElement('li');            // <li></li>
+      const noElem = document.createElement('span');          // <span></span>
+      const titleElem = document.createElement('span');       // <span></span>
+      const deleteElem = document.createElement('button');    // <button></button>
+
+
+        // text node 만들기
+      const noTxt = document.createTextNode(item.no);         // 1
+      const titleTxt = document.createTextNode(item.title);   // 두부
+      const deleteTxt = document.createTextNode('삭제');       // 삭제
+
+
+        // elemtents에 text node 넣기
+      noElem.appendChild(noTxt);                    // <span>1</span>  
+      deleteElem.setAttribute('type', 'button');    // <button type="button">
+      deleteElem.appendChild(deleteTxt);            // <button type="button">삭제</button>
+
+
+        // todolist 체크 기능
+      if(item.done){                                  // * true
+        const sElem = document.createElement('s');      // <s></s>      
+        sElem.appendChild(titleTxt);                    // <s>두부</s>
+        titleElem.appendChild(sElem);                   // <span><s>샘플1</s></span>
+      }
+        else{                                         // * false
+          titleElem.appendChild(titleTxt);                // <span>샘플1</span>
+      }
+
+
+        // <li></li>에 요소들 넣기
+            // <li>
+            //   <span>1</span>
+            //   <span><s>두부</s></span>
+            //   <button type="button">삭제</button>
+            // </li>
+      liElem.appendChild(noElem);
+      liElem.appendChild(titleElem);
+      liElem.appendChild(deleteElem);
+
+        // 완료/미완료 처리를 위한 attribute 추가
+            // <li data-no="1">
+            //   <span>1</span>
+            //   <span onclick="toggleDone(1)"><s>샘플1</s></span>
+            //   <button type="button" onclick="deleteItem(1)">삭제</button>
+            // </li>
+      liElem.setAttribute('data-no', item.no);
+      titleElem.setAttribute('onclick', `toggleDone(${item.no})`);
+      deleteElem.setAttribute('onclick', `deleteItem(${item.no})`);
+
+
+      return liElem;
+    }
+
+
+
+// * ul 요소
+    const todoListElem = document.querySelector('.todolist');
+    
+      // 기존 목록 삭제
+    while(todoListElem.firstChild){
+      todoListElem.firstChild.remove();
+    }
+
+      // itemList 배열의 각 Todo 아이템을
+      // getTodoItemElem함수의 인수로 넣어서 나온 reutrn 값을 liElem에 할당
+      // 그리고 다시 이것을 ul에 랜더링한다
+    itemList.forEach((item, index) => {
+      const liElem = getTodoItemElem(item);
+      todoListElem.appendChild(liElem);
+    });
+
+
+
+
+// * "추가" 클릭 이벤트
+// <button type="button" onclick="handleAdd()">추가</button>
+    const handleAdd = () => {
+      const inputElem = document.querySelector('.todoinput > input');
+      if(inputElem.value.trim() !== ''){  // inputValue에 값이 입력되어있다면
+        addItem(inputElem.value);         // 값을 addItem의 인수로 전달
+        inputElem.value = '';             // 그 후 값 비우기
+        inputElem.focus();                // input에 다시 포커스
+      }
+    };
+
+
+// * 엔터 이벤트
+// <input type="text" autofocus onkeydown="handleAddKeydown(event)">
+    const handleAddKeydown = event => {
+      if(event.key === 'Enter') handleAdd();
+    };
+
+
+
+// * 할일 추가
+    function addItem(title){
+      const item = {
+        no: itemList.length + 1,
+        title,
+        done: false, 
+      };
+
+        // 데이터에 새로운 아이템 추가
+      itemList.push(item);
+
+        // 화면에 새로운 아이템 추가
+      const liElem = getTodoItemElem(item);
+      const todoListElem = document.querySelector('.todolist');
+      todoListElem.appendChild(liElem);
+
+    }
+
+
+
+
+// * 완료/ 미완료 처리
+    // 해당 함수는 getTodoItemElem()에서 
+    // titleElem.setAttribute('onclick', `toggleDone(${item.no})`);로 이벤트 할당
+    // 여기서 toggleDone 매개변수 no에서 받는 인수는 ${item.no}
+    // titleElem의 클릭 이벤트로 toggleDone(no)함수가 실행됨
+    
+    function toggleDone(no){
+        // * 데이터 갱신(아이템의 완료 여부 갱신)
+        //   Array.prototype.find()
+        //   selectedItem은 클릭한 titleElem으로 매번 할당되고
+        //   이벤트 발생(클릭)마다 done 프로퍼티의 boolean 값이 매번 변경됨
+      const selectedItem = itemList.find(item => item.no === no);
+      selectedItem.done = !selectedItem.done;
+
+
+        // * 화면에 수정된 아이템으로 갱신
+              // selectedLi = 
+              //   <li data-no=2>
+              //     <span>1</span>
+              //     <span onclick="toggleDone(2)"><s>계란</s></span>
+              //     <button type="button">삭제</button>
+              //   </li>
+      const selectedLi = document.querySelector(`.todolist > li[data-no="${no}"]`);
+
+      if(selectedItem.done){
+        const titleElem = selectedLi.children[1];     // <span onclick="toggleDone(2)>계란</span>
+        const sElem = document.createElement('s');    // <s></s>
+        sElem.appendChild(titleElem.firstChild);      // <s>계란</s>
+        titleElem.appendChild(sElem);                 // <span onclick="toggleDone(2)><s>계란</s></span>
+      }else{
+        const titleElem = selectedLi.children[1];                      // <span><s>"계란"</s></span>
+        titleElem.appendChild(titleElem.firstElementChild.firstChild); // <span><s></s>"계란"</span>
+        titleElem.firstElementChild.remove();                          // <span>"계란"</span>
+      }
+    }
+
+
+
+// * 할일 삭제
+    function deleteItem(no){
+        // 데이터 갱신(배열에서 삭제)
+      itemList = itemList.filter(item => item.no !== no);
+
+        // 화면 갱신(화면에서 삭제)
+      const selectedLi = document.querySelector(`.todolist > li[data-no="${no}"]`);
+      selectedLi.remove();
+    }
+
+    
+  </script>
+</body>
+</html>
