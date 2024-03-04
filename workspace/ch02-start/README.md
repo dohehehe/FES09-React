@@ -63,6 +63,8 @@
   - 가상 DOM 이용
     + 새로운 데이터를 가지고 만들어진 가상 DOM과 기존 DOM을 비교해서 바뀐 부분만 찾아서 브라우저 DOM을 갱신하므로 성능에 좋음
     + 바뀐 부분만 찾아서 리렌더링 하는 작업은 리액트가 담당하므로 코드가 간결해짐
+<br/>
+<br/>
 
 ## 2-2 리액트 개발 환경 구축
 ### 툴체인
@@ -112,6 +114,8 @@
   - npm create vite
     + create는 init의 별칭
   - npm init vite == npm create vite == npx create-vite
+<br/>
+<br/>
 
 ## 2-3 리액트 애플리케이션 배포
 ### 프로젝트 빌드
@@ -138,6 +142,8 @@
   npx serve -s dist
   ```
 * -s 옵션: 리액트는 index.html 파일 하나에서 모든 페이지를 서비스하므로 클라이언트가 요청한 모든 URL에 대해서 index.html을 응답함
+<br/>
+<br/>
 
 ## 2-4 JSX
 
