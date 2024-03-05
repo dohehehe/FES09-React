@@ -22,3 +22,5 @@ function avg(kor, eng, math){
   return sum(kor, eng, math) / 3;
 }
 
+export {avg};
+export default {plus, minus, multiple, divide, avg};
