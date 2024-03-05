@@ -8,7 +8,8 @@
 
 ### [2장 리액트 시작하기](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch02-start)
 - [x] 리액트란?
-- [ ] 리액트 개발에 자주 사용하는 자바스크립트 문법
+- [x] 리액트 개발 환경 구축
+
 
 ### [3장 리액트 훅]()  
 <br/>
