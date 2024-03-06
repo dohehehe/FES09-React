@@ -1,4 +1,6 @@
 # 2장 React 시작하기
+* 소스 코드(GitHub): <https://github.com/uzoolove/FES09-React/tree/main/workspace-ins/ch02-start>
+* 코드 실행(GitHub Page): <https://uzoolove.github.io/FES09-React/workspace-ins/index.html#02>
 
 ## 2-1 리액트란?
 * 페이스북에서 만든 웹 UI를 작성하기 위한 자바스크립트 라이브러리
@@ -21,7 +23,7 @@
 #### 상태 관리와 단방향 데이터 바인딩
   * 각각의 컴포넌트 내부에서 상태 관리 기능 제공
   * 전역 수준의 상태 관리를 위한 라이브러리(Context API, Redux, MobX, Recoil, Zustand 등)를 사용할 수 있음
-  * 상태가 변경되면 뷰(UI, HTML)를 즉시 랜더링
+  * 상태가 변경되면 뷰(UI, HTML)를 즉시 렌더링
   * 단방향 데이터 바인딩: State -> View, View -> Event Handler -> setState() -> State
     - View의 변경이 직접 State를 변경시키지 않고 Event Handler를 통해서만 변경 가능하게 구현해야 하므로 상태가 변경되는 과정에 대한 예측과 추적이 용이함
 
@@ -52,7 +54,7 @@
   ```
 
 #### 가상 DOM (Virtual DOM)
-* 상태가 변경되어서 뷰를 랜더링할때 브라우저 DOM에 바로 적용하지 않고 브라우저 DOM과 유사한 트리구조의 가상 DOM(자바스크립트 객체)을 먼저 수정한 후 수정전의 가상 DOM과 수정후의 가상 DOM을 비교해서 바뀐 부분만 브라우저 DOM에 실제 반영
+* 상태가 변경되어서 뷰를 렌더링할때 브라우저 DOM에 바로 적용하지 않고 브라우저 DOM과 유사한 트리구조의 가상 DOM(자바스크립트 객체)을 먼저 수정한 후 수정전의 가상 DOM과 수정후의 가상 DOM을 비교해서 바뀐 부분만 브라우저 DOM에 실제 반영
 * DOM API를 이용한 화면 갱신 방법
   - 수정된 부분만 찾아서 갱신
     + 장점: 화면 렌더링을 최소화 하기 때문에 성능에 좋음
@@ -63,8 +65,6 @@
   - 가상 DOM 이용
     + 새로운 데이터를 가지고 만들어진 가상 DOM과 기존 DOM을 비교해서 바뀐 부분만 찾아서 브라우저 DOM을 갱신하므로 성능에 좋음
     + 바뀐 부분만 찾아서 리렌더링 하는 작업은 리액트가 담당하므로 코드가 간결해짐
-<br/>
-<br/>
 
 ## 2-2 리액트 개발 환경 구축
 ### 툴체인
@@ -82,7 +82,7 @@
   ```
   npx create-react-app cra
   # 생성한 프로젝트 폴더로 이동
-  cd 01
+  cd cra
   # 개발 서버 실행
   npm start
   ```
@@ -101,7 +101,7 @@
 
   ```
   # 생성한 프로젝트 폴더로 이동
-  cd 02
+  cd vite
   # 필요 패키지 설치
   npm i
   # 개발 서버 실행
@@ -114,8 +114,6 @@
   - npm create vite
     + create는 init의 별칭
   - npm init vite == npm create vite == npx create-vite
-<br/>
-<br/>
 
 ## 2-3 리액트 애플리케이션 배포
 ### 프로젝트 빌드
@@ -142,8 +140,6 @@
   npx serve -s dist
   ```
 * -s 옵션: 리액트는 index.html 파일 하나에서 모든 페이지를 서비스하므로 클라이언트가 요청한 모든 URL에 대해서 index.html을 응답함
-<br/>
-<br/>
 
 ## 2-4 JSX
 
@@ -300,4 +296,148 @@
     }
     ```
 
+## 2-5 속성 (Props)
+* 상위 컴포넌트에서 하위 컴포넌트로 데이터를 전달할 때 사용
+  ```
+  // ch02-start/todo/03.html
+  function App(){
+    const title = 'React Props';
+    let list = [
+      { _id: 1, title: '리그오브 레전드', done: false},
+      { _id: 2, title: '영화 보기(집에서)', done: false},
+      { _id: 3, title: '던파', done: false},
+    ];
 
+    return (
+      <div id="app">
+        <div>
+          <Title title={ title } />
+          <TodoList list={ list } />
+        </div>
+      </div>
+    );
+  }
+
+  function Title({ title='Default Title' }){
+    return (
+      <div>
+        <h1>Simple Todo List - { title } :()</h1>
+        <hr />
+      </div>
+    );
+  }
+
+  function TodoList({ list }){
+    const itemList = list.map(item => {
+      return (
+        <li key={ item._id }>{ item.title }</li>
+      );
+    });
+
+    return (
+      <ul className="todolist">
+        { itemList }
+      </ul>
+    );
+  }    
+  ```
+* 함수에 데이터를 전달할 때 인수를 사용하듯이 컴포넌트에 데이터를 전달할 때 Props를 사용
+  - JSX에서 하위 컴포넌트를 HTML 태그처럼 사용할 때 HTML 태그의 속성을 지정하는 것처럼 사용
+* 하위 컴포넌트에는 상위 컴포넌트가 전달한 여러 속성이 하나의 Props 객체로 전달되므로 주로 구조 분해 할당을 이용해서 필요한 속성을 바로 꺼내서 사용
+* 기본값 매개변수를 사용하면 Props가 전달되지 않거나 undefined가 명시적으로 전달될 때 적용됨
+  - null, 0 값은 기본값으로 대체되지 않음
+* 자신이 전달받은 Props 전체를 하위 컴포넌트에 전달하고 싶을때는 전개 연산자를 사용
+  ```
+  function Profile(props) {
+    return (
+      <div>
+        <Avatar { ...props } />
+      </div>
+    );
+  }
+  ```
+* Props로 객체를 전달 받을 때 자식 컴포넌트가 그 값을 직접 변경하는 것은 지양
+  - 리액트의 데이터는 상위 컴포넌트에서 하위 컴포넌트로 전달되는데 하위 컴포넌트에서 상위 컴포넌트의 데이터를 직접 수정하면 데이터의 흐름을 예측하기 어려워서 디버깅하기 어려운 오류를 만들 수 있음
+
+## 2-6 상태 (State)
+* 리액트에서는 시간이 지남에 따라 변하는 데이터를 상태라고 함
+* 상태가 변경되면 해당 컴포넌트와 하위 컴포넌트가 리렌더링 됨
+
+### React.useState()
+* 상태값(컴포넌트에서 관리하는 데이터)을 추가하기 위한 훅(Hook)
+
+#### API
+  ```
+  const [state, setState] = useState(initialState);
+  ```
+
+##### 매개변수
+* initialState: 상태값의 초기값(초기 렌더링 후 무시됨)
+
+##### 리턴값
+* state: 상태값이 저장된 getter
+* setState: 상태값을 변경하는 setter 함수. setter를 통해 상태가 변경되면 해당 컴포넌트는 다시 렌더링됨
+
+#### useState() 특징
+* 컴포넌트가 렌더링 되는 동안에만 사용할 수 있는 특별한 함수(훅, Hooks)
+* 컴포넌트의 최상위 수준이나 커스텀 훅 내부에서만 사용 가능(조건문, 반복문, 일반 함수 같은 블럭{ } 내부에서는 사용 불가)
+* 컴포넌트 내에서 여러번 사용하면 리액트가 관리하는 배열에 저장되므로 컴포넌트가 리렌더링 될때 마다 순서가 정확히 지켜져야 한다.
+  ```
+  const [firstName, setFirstName] = useState('Dragon');
+  if(firstName === 'Dragon'){
+    const [lastName, setLastName] = useState('Gil');
+  }  
+  const [age, setAge] = useState(36);
+  ```
+* state로 만든 변수는 컴포넌트를 여러곳에서 사용해도 각각의 값을 따로 관리
+  - 컴포넌트 외부에 선언한 변수는 컴포넌트 리렌더링 되어도 값이 유지되지만 해당 컴포넌트를 여러곳에서 사용할 경우 모든 컴포넌트가 공유하는 값이 되므로 컴포넌트 내부의 상태관리에 적합하지 않음
+
+### 상태 사용시 유의사항
+* state가 변경되는 즉시 리렌더링이 되지 않고 이벤트 큐에 리렌더링 작업이 등록되므로 이벤트 핸들러의 모든 코드가 실행될 때까지 기다리게 됨
+  - 이벤트 핸들러와 그 안의 코드가 완료될 때까지 UI가 업데이트되지 않는다는 의미
+  - 이벤트 핸들러 내에서 상태값을 여러번 바꾼 후 읽어오면 바로 반영되지 않음
+* 상태를 객체나 배열로 지정한 경우 상태를 변경하기 위해서 객체나 배열의 내부 속성을 직접 변경해도 참조 주소는 바뀌지 않으므로 리액트가 상태의 변경을 인지하지 못함(얕은 비교). 대신 새로운 객체나 배열을 생성해서 교체해야 리렌더링이 발생
+
+### 상태의 불변성 (immutability)
+* 한번 정의한 상태는 그 값이 바뀌지 않도록 한다.
+  - 새로운 상태로 바꿀 때 기존 상태값을 수정하지 말고 새로운 상태값으로 교체
+  - 기본 데이터타입은 불변성을 가짐
+  - 참조형 데이터타입은 불변성을 가지도록 객체나 배열을 복사해서 구현
+* 중첩 객체일 경우에는 불변성을 위해 수정될 속성을 포함한 객체와 그 객체를 포함하는 객체를 루트 객체까지 거슬러 올라가면서 전부 교체해야할 수 있음 
+  ```
+  {
+    "_id": 4,
+    "email": "u1@market.com",
+    "name": "데이지",
+    "phone": "01044445555",
+    "address": "서울시 강남구 논현동 222",
+    "type": "user",
+    "createdAt": "2024.01.25 21:08:14",
+    "updatedAt": "2024.02.04 09:38:14",
+    "extra": {
+      "birthday": "11-30",
+      "membershipClass": "MC02",
+      "address": [
+        {
+          "id": 1,
+          "name": "회사",
+          "value": "서울시 강동구 천호동 123"
+        },
+        {
+          "id": 2,
+          "name": "집",
+          "value": "서울시 강동구 성내동 234"
+        }
+      ]
+    }
+  }
+  ```
+* 배열의 불변성을 위해 피해야 할 메서드와 추천하는 메서드
+  - 추가: push(), unshift() 대신 concat(), [ ...arr ]
+  - 삭제: pop(), shift() 대신 filter(), slice()
+  - 수정: splice(), arr[i] 대신 map()
+  - 정렬: reverse(), sort() 바로 사용하지 말고 배열 복사 후 사용
+
+* 상태의 불변성을 구현할 경우 추후 성능 최적화를 위해 메모이제이션 작업을 수행할 때 Props의 변경 여부를 얕은 비교만으로 확인 할수 있어서 렌더링 최적화에 도움 
+* immer 라이브러리
+  - 객체를 불변성으로 만들어주는 라이브러리
