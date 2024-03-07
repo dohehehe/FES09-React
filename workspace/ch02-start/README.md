@@ -65,6 +65,8 @@
   - 가상 DOM 이용
     + 새로운 데이터를 가지고 만들어진 가상 DOM과 기존 DOM을 비교해서 바뀐 부분만 찾아서 브라우저 DOM을 갱신하므로 성능에 좋음
     + 바뀐 부분만 찾아서 리렌더링 하는 작업은 리액트가 담당하므로 코드가 간결해짐
+<br/>
+<br/>
 
 ## 2-2 리액트 개발 환경 구축
 ### 툴체인
@@ -114,6 +116,8 @@
   - npm create vite
     + create는 init의 별칭
   - npm init vite == npm create vite == npx create-vite
+<br/>
+<br/>
 
 ## 2-3 리액트 애플리케이션 배포
 ### 프로젝트 빌드
@@ -140,6 +144,8 @@
   npx serve -s dist
   ```
 * -s 옵션: 리액트는 index.html 파일 하나에서 모든 페이지를 서비스하므로 클라이언트가 요청한 모든 URL에 대해서 index.html을 응답함
+<br/>
+<br/>
 
 ## 2-4 JSX
 
@@ -295,6 +301,8 @@
       return <span>Hello { msg }</span>
     }
     ```
+<br/>
+<br/>
 
 ## 2-5 속성 (Props)
 * 상위 컴포넌트에서 하위 컴포넌트로 데이터를 전달할 때 사용
@@ -358,6 +366,8 @@
   ```
 * Props로 객체를 전달 받을 때 자식 컴포넌트가 그 값을 직접 변경하는 것은 지양
   - 리액트의 데이터는 상위 컴포넌트에서 하위 컴포넌트로 전달되는데 하위 컴포넌트에서 상위 컴포넌트의 데이터를 직접 수정하면 데이터의 흐름을 예측하기 어려워서 디버깅하기 어려운 오류를 만들 수 있음
+<br/>
+<br/>
 
 ## 2-6 상태 (State)
 * 리액트에서는 시간이 지남에 따라 변하는 데이터를 상태라고 함
@@ -441,3 +451,177 @@
 * 상태의 불변성을 구현할 경우 추후 성능 최적화를 위해 메모이제이션 작업을 수행할 때 Props의 변경 여부를 얕은 비교만으로 확인 할수 있어서 렌더링 최적화에 도움 
 * immer 라이브러리
   - 객체를 불변성으로 만들어주는 라이브러리
+
+<br />
+<br />
+
+## 2-7 유효성 검증
+### Props의 유효성 검증
+* 컴포넌트가 전달받은 Props의 유효성을 검증하는 기능
+* 설치
+  ```
+  npm i prop-types
+  ```
+
+* 사용 사례
+  ```
+  import PropTypes from 'prop-types';
+  import TodoItem from "./TodoItem";
+  function TodoList(props){
+    const list = props.itemList.map(item => <TodoItem key={ item.no } item={ item } toggleDone={ props.toggleDone } deleteItem={ props.deleteItem } />);
+    return (
+      <ul className="todolist">
+        { list }
+      </ul>
+    );
+  }
+
+  TodoList.propTypes = {
+    itemList: PropTypes.array.isRequired,
+    toggleDone: PropTypes.func.isRequired,
+    deleteItem: PropTypes.func.isRequired,
+  };
+
+  export default TodoList;
+  ```
+
+  ```
+  import PropTypes from 'prop-types';
+  function TodoItem(props){
+    return (
+      <li>
+        <span>{ props.item.no }</span>
+        <span onClick={ () => props.toggleDone(props.item.no) } >{ props.item.done ? <s>{ props.item.title }</s> : props.item.title }</span>
+        <button type="button" onClick={ () => props.deleteItem(props.item.no) } >삭제</button>
+      </li>
+    );
+  }
+
+  TodoItem.propTypes = {
+    // item: PropTypes.object.isRequired,
+    item: PropTypes.shape({
+      no: PropTypes.number,
+      title: PropTypes.any.isRequired,
+      done: PropTypes.bool
+    }).isRequired,
+    toggleDone: PropTypes.func.isRequired,
+    deleteItem: PropTypes.func.isRequired
+  };
+
+  export default TodoItem;
+  ```
+
+* 사용 방법
+  ```
+  import PropTypes from 'prop-types';
+
+  MyComponent.propTypes = {
+    // 특정 JS 타입임을 선언(해당 속성이 전달되지 않아도 됨)
+    optionalArray: PropTypes.array,
+    optionalBool: PropTypes.bool,
+    optionalFunc: PropTypes.func,
+    optionalNumber: PropTypes.number,
+    optionalObject: PropTypes.object,
+    optionalString: PropTypes.string,
+    optionalSymbol: PropTypes.symbol,
+
+    // 모든 종류의 자식 요소(리액트 엘리먼트, 문자, 숫자, 배열, 불린, null, undefined 등)
+    optionalNode: PropTypes.node,
+
+    // React 엘리먼트
+    optionalElement: PropTypes.element,
+
+    // React 동적으로 로딩된 엘리먼트
+    optionalElementType: PropTypes.elementType,
+
+    // 특정 클래스의 인스턴스
+    // 이 경우 JavaScript의 instanceof 연산자를 사용
+    optionalMessage: PropTypes.instanceOf(Message),
+
+    // 열거형(enum)으로 처리하여 prop가 특정 값들로 제한되도록 할 수 있음
+    optionalEnum: PropTypes.oneOf(['News', 'Photos']),
+
+    // 여러 종류중 하나
+    optionalUnion: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.instanceOf(Message)
+    ]),
+
+    // 특정 타입의 배열
+    optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
+
+    // 특정 타입의 프로퍼티 값들을 갖는 객체
+    optionalObjectOf: PropTypes.objectOf(PropTypes.number),
+
+    // 지정된 타입의 속성을 가지고 있는 객체(다른 속성이 있어도 됨)
+    optionalObjectWithShape: PropTypes.shape({
+      color: PropTypes.string,
+      fontSize: PropTypes.number
+    }),
+
+    // 지정된 타입의 속성만 가지고 있는 객체(다른 속성이 있으면 안됨)
+    optionalObjectWithStrictShape: PropTypes.exact({
+      name: PropTypes.string,
+      quantity: PropTypes.number
+    }),
+
+    // 위에 있는 모든 구문에 'isRequired'를 연결하면 해당 속성이 필수임을 나타냄
+    requiredFunc: PropTypes.func.isRequired,
+
+    // 모든 데이터 타입이 가능한 필수값
+    requiredAny: PropTypes.any.isRequired,
+
+    // 사용자 정의 유효성 검사기를 지정
+    // 검사 실패 시에는 에러(Error) 객체를 반환해야 함
+    customProp: function(props, propName, componentName) {
+      if (!/matchme/.test(props[propName])) {
+        return new Error(
+          `'${componentName}' 컴포넌트의 prop '${propName}' 값 검증 실패.'
+        );
+      }
+    },
+
+    // 'arrayOf' 와 'objectOf'에 사용자 정의 유효성 검사기 지정
+    // 검사 실패 시에는 에러(Error) 객체를 반환해야 함
+    // 유효성 검사기는 배열(array) 혹은 객체의 각 키(key)에 대하여 호출됨
+
+    // propValue: 현재 검사 중인 prop의 값(배열이나 객체)
+    // key: 현재 검사 중인 prop의 키
+    // componentName: 현재 검사 중인 컴포넌트의 이름
+    // location: prop이 전달된 위치 ("props" 또는 "context" 중 하나)
+    // propFullName: prop의 이름
+    customArrayProp: PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
+      if (!/matchme/.test(propValue[key])) {
+        return new Error(
+          'Invalid prop `' + propFullName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed.'
+        );
+      }
+    })
+  };
+  ```
+
+### Form의 유효성 검증
+* Form 태그의 사용자의 입력 데이터를 검증
+* react-hook-form 설치
+  ```
+  npm i react-hook-form
+  ```
+
+
+<br />
+<br />
+
+## 2-8 컴포넌트 구분
+### 컨테이너 컴포넌트와 표현 컴포넌트
+* 상태와 비즈니스 로직을 처리하는 컨테이너와 UI를 담당하는 컨테이너를 분리해서 설계
+* 컴포넌트의 역할이 명확해지고 표현 컴포넌트에서는 상태 관련 로직이 제거되므로 상태 관련 컴포넌트가 줄어들어 상태 추적이 용이하고 디버깅이 쉬워짐
+
+#### 컨테이너 컴포넌트
+* UI와 스타일은 담당하지 않고 상태를 정의하고 변경하며 비즈니스 로직을 포함하는 컨테이너
+* 하위에 표현 컴포넌트들을 가지고 있으며 표현 컴포넌트에 상태값을 Props로 전달하고 Props를 수정할 수 있는 콜백 함수도 전달
+
+#### 표현 컴포넌트
+* 부모 컴포넌트로 부터 Props를 전달받아서 UI를 반환하는 기능만 담당
+* 상태를 관리하지 않기 때문에 구현이 단순해짐
