@@ -28,7 +28,7 @@
 #### 1-3 render()
 * 주로 JSX를 이용해서 UI를 리턴하도록 작성함
 
-#### 1-4 componentDidMount()
+#### 1-4 componentDidMount() (useEffect로 사용 가능)
 * 컴포넌트 마운트가 완료되고 브라우저 DOM 트리에 반영된 후 호출됨
   - 컴포넌트가 화면에 보기 직전에 호출
 
