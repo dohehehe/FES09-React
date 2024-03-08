@@ -22,7 +22,7 @@ class Child extends Component{
   static getDerivedStateFromProps(props, state){
     console.log('1-2/2-1 getDerivedStateFromProps 호출됨');
     console.log('\tprops', props);
-    console.log('\tprops', state);
+    console.log('\tstate', state);
 
     return state;
   }
@@ -63,17 +63,17 @@ class Child extends Component{
   // 2-4
   getSnapshotBeforeUpdate(prevProps, prevState){
     console.log('2-4 getSnapshotBeforeUpdate');
-    console.log('\t', prevProps);
-    console.log('\t', prevState);
+    console.log('\tprevProps', prevProps);
+    console.log('\tprevState', prevState);
     return 'hello';
   }
 
   // 2-5
   componentDidUpdate(prevProps, prevState, snapshot){
     console.log('2-5 componentDidUpdate');
-    console.log('\t', prevProps);
-    console.log('\t', prevState);
-    console.log('\t', snapshot);
+    console.log('\tprevProps', prevProps);
+    console.log('\tprevState', prevState);
+    console.log('\tsnapshot', snapshot);
   }
 
   // 3-1

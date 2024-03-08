@@ -12,6 +12,7 @@ class Child extends Component{
 
 
   // arrow function 으로 작성해야 this.state 등에 접근 가능함
+  // 여기서 화살표 함수의 this는 Child를 가리킨다
   increase = () => {
     this.setState({count: this.state.count + this.props.level})
   }
