@@ -10,6 +10,7 @@ function Counter({ children=0 }) {
   const [count, countDispatch] = useReducer(counterReducer, Number(children));
   const [num, setNum] = useState(1);
 
+  console.log('counter 호출됨.');
 
   const handleDown = () => {
     // setCount(count - num);
