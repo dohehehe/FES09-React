@@ -9,7 +9,7 @@
 <br />
 <br />
 
-## useState
+## [useState](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch03-hooks/01-useState)
 * 상태값(컴포넌트에서 관리하는 데이터)을 추가하기 위한 훅
 
 ### API
@@ -28,7 +28,7 @@ const [state, setState] = useState(initialState);
 <br />
 <br />
 
-## useEffect
+## [useEffect](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch03-hooks/02-useEffect)
 * 컴포넌트 생명주기 이벤트를 등록하기 위한 훅
 * 클래스 기반 컴포넌트일 경우 아래 메소드를 오버라이드해서 구현
   - componentDidMount(): 컴포넌트 마운트가 완료되고 브라우저 DOM 트리에 반영된 후 호출
