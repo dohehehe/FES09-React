@@ -15,7 +15,9 @@ function f2(f1Result){
 }
 
 function test(){
-  
+  const f1Result = f1();
+  const f2Result = f2(f1Result);
+  console.log(f2Result);
 }
 
 console.log('1. 테스트 시작.');
