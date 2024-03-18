@@ -1,17 +1,44 @@
 # React 프로그래밍
    
-### [1장 리액트 빌드업](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch01-buildup)
+### [1장 React 빌드업](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch01-buildup)
 
 - [x] 웹 개발의 변천사
-- [ ] 리액트 개발에 자주 사용하는 자바스크립트 문법
+- [x] 리액트 개발에 자주 사용하는 자바스크립트 문법
 
 
-### [2장 리액트 시작하기](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch02-start)
+### [2장 React 시작하기](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch02-start)
 - [x] 리액트란?
 - [x] 리액트 개발 환경 구축
 
+### [3장 React Hook](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch03-hooks)
+- [x] React Hook
+  - useState - 상태 관리
+  - useEffect - side effect 관리
+  - useReducer - 상태 관리 로직을 한곳에
+  - useRef - 데이터 관리, DOM 엘리먼트 참조
+  - useMemo - 함수의 반환값을 memoize
+  - useCallback - 함수 자체를 memoize
+  - React.memo - 컴포넌트를 memoize
+- [x] Custom Hook
+  - useCounter 커스텀 훅 사용
+  - useFatch, useAxios 커스텀 훅
 
-### [3장 리액트 훅]()  
+### 4장 Class 컴포넌트와 컴포넌트의 life cycle
+
+### 5장 고차 함수
+### 6장 Context API
+### [7장 React Router](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch07-router)
+  - React Router (v6.4 이전)
+  - React Router (v6.4 이후) - RouterProvider
+
+### 8장 상태 관리 라이브러리
+### 9장 리액트에서 CSS 사용
+### 10장 [HTTP 통신과 Ajax](https://github.com/dohehehe/FES09-React/tree/main/workspace/ch10-ajax)
+
+### 11장 백엔드 개발과 API 서버
+### 12장 Next.js
+
+
 <br/>
 <br/>
 
