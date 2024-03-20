@@ -9,3 +9,11 @@ a {
 li{
   margin-bottom: 5px;
 }
+
+.menu {
+  background-color: white;
+}
+
+.menu-selected {
+  background-color: gray;
+}

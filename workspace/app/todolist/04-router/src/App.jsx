@@ -1,9 +1,12 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routes";
+import { Suspense } from 'react';
 
 function App() {
   return (
-    <RouterProvider router={ router } />
+    <Suspense fallbasck ={<div>로딩중...</div>}>
+      <RouterProvider router={ router } />
+    </Suspense>
   );
 }
 
