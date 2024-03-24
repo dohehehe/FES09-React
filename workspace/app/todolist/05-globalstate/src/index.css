@@ -1,0 +1,19 @@
+ul, li, ol {
+  list-style: none;
+}
+
+a {
+  padding: 0 10px;
+}
+
+li{
+  margin-bottom: 5px;
+}
+
+.menu {
+  background-color: white;
+}
+
+.menu-selected {
+  background-color: gray;
+}
