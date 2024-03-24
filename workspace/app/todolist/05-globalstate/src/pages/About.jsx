@@ -1,4 +1,4 @@
-function About () {
+function About(){
   return (
     <div id="main">
       <h2>About</h2>
@@ -6,7 +6,7 @@ function About () {
         <p>Front End School 9기 Todo List 라우팅 적용 실습</p>
       </div>
     </div>
-  )
+  );
 }
 
 export default About;

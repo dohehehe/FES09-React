@@ -1,5 +1,5 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import { lazy } from 'react';
+import { lazy } from "react";
 
 const About = lazy(() => import('@pages/About'));
 const Home = lazy(() => import('@pages/Home'));
@@ -10,6 +10,7 @@ const TodoList = lazy(() => import('@pages/TodoList'));
 const ErrorPage = lazy(() => import('@pages/ErrorPage'));
 const Layout = lazy(() => import('@components/Layout'));
 
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -17,14 +18,15 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       // { index: true, element: <Home /> },
-      {index: true, element: <Navigate to="/home" />},
+      { index: true, element: <Navigate to="/home" /> },
       { path: 'home', element: <Home /> },
       { path: 'about', element: <About /> },
       { path: 'list', element: <TodoList /> },
-      { path: 'list/:_id', 
+      { 
+        path: 'list/:_id', 
         element: <TodoDetail />,
         children: [
-          {path: 'edit', element: <TodoEdit />}
+          { path: 'edit', element: <TodoEdit /> }
         ]
       },
       { path: 'add', element: <TodoAdd /> },
