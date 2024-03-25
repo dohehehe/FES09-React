@@ -1,6 +1,5 @@
 # 3장 리액트 훅
-* 소스 코드(GitHub): <https://github.com/uzoolove/FES09-React/tree/main/workspace-ins/ch03-hooks>
-* 코드 실행(GitHub Page): <https://uzoolove.github.io/FES09-React/workspace-ins/index.html#03>
+
 
 ## 리액트 훅이란?
 * 컴포넌트가 렌더링 되는 동안에만 사용할 수 있는 특별한 함수
@@ -202,7 +201,7 @@ const cachedFn = useCallback(fn, dependencies);
 ### useMemo vs. React.memo vs. useCallback
 * useMemo는 함수를 인자로 전달하고 전달된 함수의 실행 결과(리턴값)를 memoize 함
 * React.memo는 컴포넌트를 인자로 전달하고 전달된 컴포넌트를 memoize 함
-* useCallback은 함수를 인자롤 전달하고 전달된 함수를 memoize 함
+* useCallback은 함수를 인자로 전달하고 전달된 함수를 memoize 함
 * 함수의 리턴 값 vs. 컴포넌트 vs. 함수
 
 ## Custom Hook
